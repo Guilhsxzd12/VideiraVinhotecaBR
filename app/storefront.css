@@ -17,3 +17,117 @@
 .sf-detail .sf-breadcrumb{flex-wrap:wrap}.sf-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:65px}.sf-detail-photo{min-height:550px;background:#f7f5f1;display:flex;justify-content:center;align-items:center;border-radius:5px}.sf-detail-photo .wine-photo{max-height:480px!important;max-width:80%!important}.sf-detail-info h1{font:400 38px/1.15 Georgia;color:var(--sf-wine);margin:0 0 15px}.sf-detail-info>p{font-size:12px;color:var(--sf-muted)}.sf-detail-winery{font-size:13px;color:var(--sf-wine);text-decoration:underline}.sf-detail-info dl{font-size:12px;margin:25px 0}.sf-detail-info dl>div{display:flex;justify-content:space-between;gap:25px;border-bottom:1px solid var(--sf-line);padding:10px 0}.sf-detail-info dt{color:var(--sf-muted)}.sf-detail-info dd{margin:0;text-align:right}.sf-detail-notes{font-size:12px;color:var(--sf-muted)}.sf-detail-notes h2{font-size:24px;margin-bottom:10px}.sf-detail-price{display:block;font-size:32px;color:var(--sf-wine);margin-top:25px}.sf-detail-buy{display:flex;align-items:end;gap:15px;margin-top:20px}.sf-detail-buy label{font-size:10px;color:var(--sf-muted);width:75px}.sf-detail-buy input{display:block;width:75px;padding:12px 8px;border:1px solid var(--sf-line);border-radius:3px;margin-top:5px}.sf-detail-consult{display:flex;gap:15px;align-items:center;font-size:11px;color:var(--sf-wine);margin-top:25px}.sf-detail-consult svg{width:17px}@media(max-width:760px){.sf-detail-grid{grid-template-columns:1fr;gap:25px}.sf-detail-photo{min-height:340px}.sf-detail-photo .wine-photo{max-height:300px!important}.sf-detail-info h1{font-size:30px}.sf-detail-buy .sf-button{flex:1}}
 
 .sf-slide-controls{z-index:3}
+
+
+/* Videira 2026 – storefront refinement */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+.storefront{--sf-wine:#670541;--sf-dark:#420628;--sf-paper:#fff7e9;--sf-line:#eadce2;--sf-muted:#806c76;background:#fff8ee;color:#3b2431;font-family:Poppins,Arial,sans-serif;font-weight:300}
+.storefront h1,.storefront h2,.storefront h3,.storefront strong{font-family:Poppins,Arial,sans-serif;font-weight:700}
+.storefront h2{font-weight:700;letter-spacing:-.045em}
+.storefront .sf-eyebrow{font-family:Poppins,Arial,sans-serif;color:#9e748a}
+.sf-topbar{display:none}
+.sf-header{position:fixed;z-index:90;left:50%;transform:translateX(-50%);top:16px;width:min(1170px,calc(100% - 32px));border:1px solid #ffffff40;border-radius:40px;background:#670541;box-shadow:0 16px 42px #2d082029}
+.sf-header-inner{height:67px;padding:7px 18px;gap:15px}
+.sf-brand{margin-right:auto}
+.sf-brand img{width:180px;height:52px;filter:brightness(0) invert(1);object-fit:contain;object-position:left}
+.sf-header-actions{display:flex;align-items:center;gap:7px}
+.sf-menu-button,.sf-search-toggle,.sf-cart-button{display:grid;place-items:center;width:42px;height:42px;border:0;border-radius:50%;color:#fff7e9;background:transparent;padding:8px}
+.sf-menu-button:hover,.sf-search-toggle:hover,.sf-cart-button:hover{background:#ffffff18}
+.sf-cart-button{position:relative}
+.sf-cart-count{background:#fbb03b;color:#4a0a2c;left:auto;right:0;top:0}
+.sf-nav{position:absolute;right:0;left:0;top:calc(100% + 9px);display:grid!important;grid-template-columns:repeat(4,1fr);gap:6px;padding:20px;border-radius:23px;background:#4b092e;box-shadow:0 18px 40px #2d082030}
+.sf-nav a{display:block;color:#fff7e9;font-size:12px;font-weight:400;padding:11px 12px;border-radius:12px}
+.sf-nav a:hover{background:#ffffff12;color:white}
+.sf-search-panel{position:absolute;top:calc(100% + 9px);right:0;width:min(510px,100%);background:#4b092e;border-radius:20px;padding:13px;display:flex;gap:9px;box-shadow:0 18px 40px #2d082030}
+.sf-search-panel input{flex:1;min-width:0;border:0;border-radius:12px;background:white;color:#4b092e;padding:12px 14px;font-size:14px}
+.sf-search-panel button{background:#fff7e9;color:#670541;border:0;border-radius:12px;padding:0 16px;display:flex;align-items:center;gap:8px;font-weight:700}
+.sf-hero{margin:0 auto;max-width:none;min-height:440px;border-radius:0 0 25px 25px}
+.sf-photographic{background:linear-gradient(90deg,rgba(35,3,22,.94),rgba(58,9,35,.75) 45%,rgba(57,11,37,.24)),radial-gradient(circle at 78% 43%,#bb7797 0%,#4d1c33 26%,#170814 74%);background-size:cover;background-position:center}
+.sf-hero-copy{padding:140px max(6%,30px) 55px;max-width:760px}
+.sf-hero-copy h1{color:#fff7e9;font-size:clamp(32px,4.5vw,58px);font-weight:700;line-height:1.13;letter-spacing:-.045em}
+.sf-hero-copy h1 em{color:#fbb03b;font-style:normal}
+.sf-hero-copy>p:not(.sf-eyebrow){color:#f4e5ee;font-size:14px;max-width:540px}
+.sf-hero .sf-eyebrow{color:#f8cae0}
+.sf-button,.sf-add{border-radius:12px;background:#670541;color:white;border-color:#670541;font-family:Poppins,Arial,sans-serif;font-weight:700}
+.sf-hero .sf-button{background:#fff7e9;color:#670541;border-color:#fff7e9}
+.sf-category-section{padding-top:24px;padding-bottom:4px}
+.sf-category-line{display:flex;gap:9px;overflow-x:auto;scrollbar-width:none;padding:3px 0}
+.sf-category-line a{border:1px solid #e8dce1;background:white;color:#670541;white-space:nowrap;padding:10px 17px;border-radius:999px;font-size:12px;font-weight:600}
+.sf-category-line a:hover{background:#670541;color:white}
+.sf-wine-card{border-radius:17px;border:1px solid #efe5e8;box-shadow:0 6px 22px #3d13300b}
+.sf-wine-visual{background:#fff;height:262px}
+.sf-product-badges span{border-radius:999px;padding:6px 10px}
+.sf-flag-circle{position:absolute;right:14px;top:14px;width:32px!important;height:32px!important;border:3px solid white;border-radius:50%;object-fit:cover;box-shadow:0 2px 10px #0002;z-index:2}
+.sf-wine-info{padding:15px}
+.sf-wine-info h3{font-size:14px;font-weight:700;height:auto;min-height:38px;color:#670541}
+.sf-wine-origin{font-size:11px;color:#795f6b}
+.sf-wine-price{margin:14px 0 12px;min-height:69px}
+.sf-wine-price strong{font-size:21px;font-weight:700}
+.sf-wine-price span{display:block;font-size:11px;color:#806c76;margin-top:4px}
+.sf-shelf-actions button{border-radius:50%;height:34px;width:34px}
+.sf-product-row{scroll-snap-type:x mandatory;scrollbar-width:none;gap:15px}
+.sf-product-row::-webkit-scrollbar{display:none}
+.sf-catalog-grid{gap:16px}
+.sf-filters,.sf-catalog-grid .sf-wine-card{border-radius:16px}
+.sf-filters input,.sf-filters select,.sf-result-toolbar select{border-radius:10px}
+.sf-footer{background:#3d0726}
+.sf-detail-grid{gap:45px}
+.sf-detail-photo{position:relative;display:flex;width:100%;border:0;cursor:zoom-in;background:white;border-radius:20px;min-height:500px}
+.sf-detail-photo .sf-flag-circle{top:20px;right:20px}
+.sf-detail-photo .wine-photo{max-height:445px!important}
+.sf-zoom-hint{position:absolute;bottom:18px;right:18px;font-size:11px;color:#670541}
+.sf-detail-thumbs{display:flex;gap:10px;margin-top:10px}
+.sf-detail-thumbs button{width:74px;height:80px;border:2px solid #670541;border-radius:10px;background:white;padding:8px;cursor:zoom-in}
+.sf-detail-thumbs .wine-photo{max-height:62px!important}
+.sf-detail-info h1{font-family:Poppins,Arial,sans-serif;font-weight:700;color:#670541}
+.sf-detail-price{margin-top:0}
+.sf-price-label{display:block;margin-top:26px;font-size:11px;color:#806c76}
+.sf-detail-card-price{color:#806c76}
+.sf-sensory{margin-top:60px;border-radius:22px;padding:40px;background:#fff2e6}
+.sf-sensory h2{color:#670541;font-size:28px}
+.sf-sensory>div{display:flex;align-items:flex-start;gap:25px;padding:24px 0;border-bottom:1px solid #e4d0da}
+.sf-sensory>div:last-child{border-bottom:0}
+.sf-sensory-icon{display:grid;place-items:center;flex:0 0 48px;height:48px;border-radius:50%;background:#f1dfe6;color:#670541;font-size:25px}
+.sf-sensory h3{font-size:18px;color:#670541;margin:0 0 5px}
+.sf-sensory p{font-size:13px;color:#6f5262;line-height:1.9;margin:0}
+.sf-image-zoom{position:fixed;inset:0;background:#1a0617ed;z-index:200;display:grid;place-items:center;padding:45px;cursor:zoom-out}
+.sf-image-zoom>button{position:absolute;right:22px;top:12px;font-size:38px;background:none;border:0;color:white}
+.sf-image-zoom>div{background:white;border-radius:20px;max-width:min(700px,90vw);width:100%;height:min(78vh,850px);display:grid;place-items:center;overflow:auto}
+.sf-image-zoom .wine-photo{max-height:75vh!important;max-width:90%!important}
+.sf-cart{border-radius:23px 0 0 23px}
+@media(max-width:760px){
+.sf-header{top:12px;width:calc(100% - 22px)}
+.sf-header-inner{min-height:0;height:59px;flex-wrap:nowrap;gap:4px;padding:6px 11px}
+.sf-brand{flex:1;min-width:0}
+.sf-brand img{width:min(142px,100%);height:44px}
+.sf-header-actions{gap:0;flex-shrink:0}
+.sf-menu-button,.sf-search-toggle,.sf-cart-button{width:34px;height:36px;padding:6px}
+.sf-nav{grid-template-columns:1fr 1fr;padding:12px;max-height:65vh;overflow:auto}
+.sf-nav a{font-size:11px;padding:9px}
+.sf-search-panel{width:100%}
+.sf-hero{min-height:325px;border-radius:0 0 20px 20px;display:block}
+.sf-hero-copy{padding:105px 22px 30px}
+.sf-hero-copy h1{font-size:31px;letter-spacing:-.035em}
+.sf-hero-copy>p:not(.sf-eyebrow){font-size:11px}
+.sf-section{padding:30px 15px}
+.sf-category-section{padding-top:18px;padding-bottom:0}
+.sf-category-line a{padding:9px 14px;font-size:11px}
+.sf-product-row{grid-auto-columns:calc((100% - 12px)/2);gap:12px}
+.sf-wine-visual{height:188px}
+.sf-wine-visual .wine-photo{max-height:165px!important}
+.sf-wine-info{padding:11px}
+.sf-wine-info h3{font-size:11px;min-height:38px}
+.sf-wine-price strong{font-size:17px}
+.sf-wine-price span{font-size:9px}
+.sf-add{font-size:9px!important}
+.sf-flag-circle{width:27px!important;height:27px!important;top:8px;right:8px}
+.sf-detail-grid{gap:24px}
+.sf-detail-photo{min-height:335px}
+.sf-detail-photo .wine-photo{max-height:295px!important}
+.sf-sensory{padding:22px 16px;margin-top:30px}
+.sf-sensory h2{font-size:22px}
+.sf-sensory>div{gap:14px}
+.sf-sensory-icon{flex-basis:42px;height:42px}
+.sf-catalog-grid .sf-wine-visual{height:170px}
+.sf-catalog-grid .sf-wine-price strong{font-size:17px}
+}
