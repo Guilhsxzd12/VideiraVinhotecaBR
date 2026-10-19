@@ -61,7 +61,7 @@ export function wineIdFromSlug(slug=''){
   return marker>=0?clean.slice(marker+2):clean;
 }
 
-function normalize(w){
+export function normalize(w){
   const item={
     ...w,
     type:w.type||w.category||'',
