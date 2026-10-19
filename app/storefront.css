@@ -231,3 +231,50 @@
 .storefront .sf-footer-social a[aria-label="Instagram da Videira"] svg{fill:none!important;stroke:currentColor!important;stroke-width:1.8!important}
 .storefront .sf-footer-social a[aria-label="Instagram da Videira"] svg circle[fill="currentColor"]{fill:currentColor!important;stroke:none!important}
 .storefront .sf-footer-social a[aria-label="WhatsApp da Videira"] svg{fill:currentColor}
+
+
+/* Direção editorial minimalista, restrita ao corpo da loja.
+   Header e footer preservados. */
+.storefront main{background:#fbf7ef;color:#392531}
+.storefront main .sf-section{max-width:1120px;padding-top:32px;padding-bottom:32px}
+.storefront main .sf-section-heading{margin-bottom:18px}
+.storefront main .sf-section-heading h2,
+.storefront main .sf-centered-heading h2{font-family:Poppins,Arial,sans-serif;font-size:clamp(20px,2.5vw,30px);font-weight:600;letter-spacing:-.045em;line-height:1.2;color:#670541}
+.storefront main .sf-eyebrow{font-weight:500;letter-spacing:.13em;font-size:10px}
+.storefront main .sf-discovery,.storefront main .sf-price-section{display:none}
+.storefront main .sf-hero{border-radius:0 0 18px 18px;min-height:340px}
+.storefront main .sf-hero-copy{padding-bottom:39px}
+.storefront main .sf-hero-copy h1{font-size:clamp(29px,3.9vw,47px);font-weight:600;letter-spacing:-.035em}
+.storefront main .sf-hero .sf-button{border-radius:12px}
+.storefront main .sf-wine-card{box-shadow:none;border-color:#eadfe2;border-radius:14px;background:white}
+.storefront main .sf-wine-card:hover{box-shadow:0 5px 15px #421a2d0a}
+.storefront main .sf-wine-visual{background:#fff}
+.storefront main .sf-wine-info h3{font-weight:600}
+.storefront main .sf-wine-price{margin-top:8px}
+.storefront main .sf-category-line a{font-weight:500;border-color:#eadfe2;box-shadow:none}
+.storefront main .sf-countries a,.storefront main .sf-grapes a{border-radius:13px}
+.storefront main .sf-about,.storefront main .sf-faq{border-top:1px solid #eadde0}
+.storefront main .sf-about h2,.storefront main .sf-faq h2{font-family:Poppins,Arial,sans-serif;font-weight:600;font-size:clamp(24px,3vw,35px);letter-spacing:-.035em}
+.storefront main .sf-detail{max-width:1050px}
+.storefront main .sf-detail-photo{background:#fff;border:1px solid #f0e9ec;box-shadow:none}
+.storefront main .sf-detail-info h1{font-size:clamp(27px,3.5vw,38px);font-weight:600}
+.storefront main .sf-detail-info dl>div{border-color:#eddee3}
+.storefront main .sf-sensory{background:#f8f0e9;border-radius:15px;margin-top:30px}
+.storefront main .sf-sensory h2{font-size:23px}
+.storefront main .sf-result-toolbar{margin-bottom:14px}
+.storefront main .sf-catalog-heading h1{font-size:clamp(26px,3.5vw,38px);font-weight:600;letter-spacing:-.035em}
+.storefront main .sf-catalog-grid{gap:14px}
+@media(max-width:760px){
+.storefront main .sf-section{padding:24px 17px}
+.storefront main .sf-hero{min-height:285px}
+.storefront main .sf-hero-copy{padding:100px 23px 27px}
+.storefront main .sf-hero-copy h1{font-size:30px}
+.storefront main .sf-section-heading{gap:7px}
+.storefront main .sf-section-heading h2{font-size:22px}
+.storefront main .sf-wine-visual{height:164px}
+.storefront main .sf-wine-info{padding:10px}
+.storefront main .sf-wine-info h3{font-size:12px}
+.storefront main .sf-detail{padding-top:108px}
+.storefront main .sf-detail-photo{height:275px}
+.storefront main .sf-catalog{padding-top:115px}
+}
