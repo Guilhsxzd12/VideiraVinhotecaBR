@@ -2,6 +2,8 @@
 
 const SUPABASE_URL='https://rmyybeaepscmzbddnvzr.supabase.co';
 const SUPABASE_KEY='sb_publishable_lINNHBmZk9rvHYgtQetewg_NTRAEWq2';
+const FALLBACK_URL='https://lahajlrombmoftevweaf.supabase.co';
+const FALLBACK_KEY='sb_publishable_ixLS7JIsBDtPF75R-rZwcA_2eAD0bKV';
 
 let catalogPromise;
 
@@ -62,7 +64,11 @@ export function wineIdFromSlug(slug=''){
 function normalize(w){
   const item={
     ...w,
-    flag:w.country_code||'',
+    type:w.type||w.category||'',
+    flag:w.country_code||({Brasil:'br',Chile:'cl',Argentina:'ar',Portugal:'pt',Espanha:'es',França:'fr',Itália:'it',Uruguai:'uy',Alemanha:'de',África_do_Sul:'za'}[String(w.country||'').replaceAll(' ','_')]||''),
+    price_pix:w.pix_price??w.price_pix??w.sale_price??w.price,
+    price_card:w.card_price??w.price_card,
+    in_stock:w.in_stock!==false,
     notes:w.tasting_notes||'',
     source:w.source_catalog||'',
     sourcePage:w.source_page,
@@ -75,26 +81,27 @@ function normalize(w){
 }
 
 async function fetchRows(query){
-  const response=await fetch(SUPABASE_URL+'/rest/v1/products?'+query,{headers:{apikey:SUPABASE_KEY},cache:'no-store'});
-  if(!response.ok) throw new Error('Não foi possível carregar o catálogo.');
-  return response.json();
+  for(const [url,key] of [[SUPABASE_URL,SUPABASE_KEY],[FALLBACK_URL,FALLBACK_KEY]]){
+    try{const response=await fetch(url+'/rest/v1/products?'+query,{headers:{apikey:key},cache:'no-store'});if(response.ok){const result=await response.json();if(Array.isArray(result))return result;}}catch(e){console.warn('Falha ao acessar uma fonte do catálogo',e)}
+  }
+  throw new Error('Não foi possível carregar o catálogo.');
 }
 
 export function loadCatalog(){
   if(!catalogPromise){
     catalogPromise=(async()=>{
-      const rows=await fetchRows('select=id,name,winery,country,country_code,region,grape,alcohol,aging,type,tasting_notes,price,source_catalog,source_page,new_arrival,featured,active,in_stock,sort_order&active=eq.true&order=sort_order.asc');
+      const rows=await fetchRows('select=*&active=eq.true&order=name.asc');
       return rows.map(normalize);
     })();
   }
-  return catalogPromise;
+  return catalogPromise.catch(error=>{catalogPromise=null;throw error});
 }
 
 const imageCache=new Map();
 export async function loadWineImage(id){
   if(!id)return '';
   if(imageCache.has(id))return imageCache.get(id);
-  const rows=await fetchRows('select=id,image_url&id=eq.'+encodeURIComponent(id)+'&active=eq.true&limit=1');
+  const rows=await fetchRows('select=id,image_url&id=eq.+encodeURIComponent(id)+'&active=eq.true&limit=1');
   const url=rows[0]?.image_url||'';
   imageCache.set(id,url);
   return url;
@@ -108,7 +115,7 @@ export async function loadWineById(id){
 
 export async function loadRelatedWines(winery,excludeId,limit=12){
   if(!winery)return [];
-  const fields='id,name,winery,country,country_code,region,grape,alcohol,aging,type,tasting_notes,price,source_catalog,source_page,new_arrival,featured,active,in_stock,sort_order';
+  const fields='*';
   const q='select='+fields+'&active=eq.true&winery=eq.'+encodeURIComponent(winery)+'&id=neq.'+encodeURIComponent(excludeId||'')+'&order=sort_order.asc&limit='+Number(limit||12);
   const rows=await fetchRows(q);
   return rows.map(normalize);
@@ -131,5 +138,5 @@ export function loadWineries(){
   return wineryPromise;
 }
 
-export function pixPrice(w){return Number(w?.price_pix ?? w?.price ?? 0)}
+export function pixPrice(w){return Number(w?.pix_price ?? w?.price_pix ?? w?.sale_price ?? w?.price ?? 0)}
 export function cardPrice(w){const n=Number(w?.price_card ?? w?.card_price ?? w?.preco_cartao ?? 0);return Number.isFinite(n)&&n>0?n:null}
