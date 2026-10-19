@@ -50,9 +50,9 @@ export function slugify(value=''){
 }
 
 export function wineSlug(w){
-  return `${slugify(w?.name||'vinho')}--${w?.id||''}`;
+  return slugify(w?.name||'vinho');
 }
-export function winePath(w){return `/vinho?produto=${encodeURIComponent(wineSlug(w))}`;}
+export function winePath(w){return `/${wineSlug(w)}`;}
 export function wineIdFromSlug(slug=''){
   const clean=decodeURIComponent(String(slug).split('?')[0]).replace(/\/+$/,'');
   const marker=clean.lastIndexOf('--');
@@ -130,3 +130,6 @@ export function loadWineries(){
   }
   return wineryPromise;
 }
+
+export function pixPrice(w){return Number(w?.price_pix ?? w?.price ?? 0)}
+export function cardPrice(w){const n=Number(w?.price_card ?? w?.card_price ?? w?.preco_cartao ?? 0);return Number.isFinite(n)&&n>0?n:null}
