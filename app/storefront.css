@@ -226,3 +226,8 @@
 .sf-detail-wa svg{width:25px;height:25px}
 .sf-detail-info dl>div{padding:8px 0}
 }
+
+/* Ícones sociais: preservar traços do Instagram, sem preenchimento sólido */
+.storefront .sf-footer-social a[aria-label="Instagram da Videira"] svg{fill:none!important;stroke:currentColor!important;stroke-width:1.8!important}
+.storefront .sf-footer-social a[aria-label="Instagram da Videira"] svg circle[fill="currentColor"]{fill:currentColor!important;stroke:none!important}
+.storefront .sf-footer-social a[aria-label="WhatsApp da Videira"] svg{fill:currentColor}
