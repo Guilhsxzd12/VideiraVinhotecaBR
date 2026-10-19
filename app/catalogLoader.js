@@ -101,7 +101,7 @@ const imageCache=new Map();
 export async function loadWineImage(id){
   if(!id)return '';
   if(imageCache.has(id))return imageCache.get(id);
-  const rows=await fetchRows('select=id,image_url&id=eq.+encodeURIComponent(id)+'&active=eq.true&limit=1');
+  const rows=await fetchRows('select=id,image_url&id=eq.'+encodeURIComponent(id)+'&active=eq.true&limit=1');
   const url=rows[0]?.image_url||'';
   imageCache.set(id,url);
   return url;
@@ -116,7 +116,7 @@ export async function loadWineById(id){
 export async function loadRelatedWines(winery,excludeId,limit=12){
   if(!winery)return [];
   const fields='*';
-  const q='select='+fields+'&active=eq.true&winery=eq.'+encodeURIComponent(winery)+'&id=neq.'+encodeURIComponent(excludeId||'')+'&order=sort_order.asc&limit='+Number(limit||12);
+  const q='select='+fields+'&active=eq.true&winery=eq.'+encodeURIComponent(winery)+'&id=neq.'+encodeURIComponent(excludeId||'')+'&order=name.asc&limit='+Number(limit||12);
   const rows=await fetchRows(q);
   return rows.map(normalize);
 }
