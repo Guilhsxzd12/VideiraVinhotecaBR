@@ -195,3 +195,34 @@
 .storefront .sf-whatsapp{right:18px;bottom:88px;height:49px;width:49px}
 .storefront .sf-whatsapp svg{width:27px;height:27px}
 }
+
+/* Página do vinho: composição mais limpa e compacta */
+.sf-detail{padding-top:120px}
+.sf-detail-grid{gap:30px;align-items:start}
+.sf-detail-gallery{min-width:0}
+.sf-detail-photo{min-height:350px;height:390px;max-height:52vh;padding:20px;overflow:hidden}
+.sf-detail-photo .wine-photo{max-height:340px!important;max-width:80%!important;object-fit:contain}
+.sf-detail-photo:disabled{cursor:default}
+.sf-detail-info h1{font-size:clamp(25px,3vw,39px);line-height:1.13;margin:7px 0 12px}
+.sf-detail-info dl{margin:22px 0}
+.sf-detail-info dl>div{padding:8px 0}
+.sf-detail-buy{align-items:flex-end;gap:10px;margin-top:15px}
+.sf-detail-buy label{flex:0 0 65px}
+.sf-detail-buy input{width:65px}
+.sf-detail-buy .sf-button{flex:1;min-width:0;height:48px;padding:9px 12px;gap:8px}
+.sf-detail-buy .sf-button svg{width:19px;height:19px}
+.sf-detail-wa{width:48px;height:48px;flex:0 0 48px;border-radius:13px;background:#25d366;color:white;display:grid;place-items:center}
+.sf-detail-wa svg{width:26px;height:26px}
+@media(max-width:760px){
+.sf-detail{padding-top:105px}
+.sf-detail-gallery{margin-bottom:4px}
+.sf-detail-photo{min-height:240px;height:275px;max-height:39vh;padding:12px}
+.sf-detail-photo .wine-photo{max-height:248px!important;max-width:85%!important}
+.sf-detail-info h1{font-size:29px}
+.sf-detail-buy{display:grid;grid-template-columns:61px minmax(0,1fr) 45px;gap:8px}
+.sf-detail-buy label,.sf-detail-buy input{width:61px}
+.sf-detail-buy .sf-button{height:46px;min-width:0;padding:6px;font-size:10px!important}
+.sf-detail-wa{width:45px;height:46px;flex-basis:45px}
+.sf-detail-wa svg{width:25px;height:25px}
+.sf-detail-info dl>div{padding:8px 0}
+}
