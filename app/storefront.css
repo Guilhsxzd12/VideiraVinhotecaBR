@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 /* Videira's own storefront, inspired by the navigation and merchandising of wine retailers. */
 .storefront{--sf-wine:#571b35;--sf-dark:#311323;--sf-paper:#f7f4ef;--sf-line:#e9e3dd;--sf-muted:#756e70;background:#fff;color:#31282b;font:14px/1.5 Arial,Helvetica,sans-serif;min-height:100vh}
 .storefront *{box-sizing:border-box}.storefront svg{width:22px;height:22px;flex-shrink:0}.storefront button,.storefront input,.storefront select{font:inherit}.storefront button,.storefront a{-webkit-tap-highlight-color:transparent}.storefront a:focus-visible,.storefront button:focus-visible,.storefront input:focus-visible,.storefront select:focus-visible{outline:3px solid #ad8457;outline-offset:4px}.storefront button:disabled{opacity:.45;cursor:not-allowed}.storefront h1,.storefront h2,.storefront h3,.storefront p{margin-top:0}.storefront h2{font:400 clamp(25px,2.6vw,35px)/1.2 Georgia,serif;letter-spacing:-.6px}.storefront .sf-eyebrow{font:600 10px/1.5 Arial,sans-serif;letter-spacing:2px;color:#8b6b59;margin:0 0 12px}.sf-section{max-width:1260px;margin:auto;padding:45px 30px;scroll-margin-top:20px}.sf-skip{position:fixed;top:-100px;left:20px;z-index:1000;padding:12px;background:white;color:var(--sf-wine)}.sf-skip:focus{top:8px}
@@ -20,7 +21,7 @@
 
 
 /* Videira 2026 – storefront refinement */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
 .storefront{--sf-wine:#670541;--sf-dark:#420628;--sf-paper:#fff7e9;--sf-line:#eadce2;--sf-muted:#806c76;background:#fff8ee;color:#3b2431;font-family:Poppins,Arial,sans-serif;font-weight:300}
 .storefront h1,.storefront h2,.storefront h3,.storefront strong{font-family:Poppins,Arial,sans-serif;font-weight:700}
 .storefront h2{font-weight:700;letter-spacing:-.045em}
