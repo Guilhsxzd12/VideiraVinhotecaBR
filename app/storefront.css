@@ -164,3 +164,34 @@
 .sf-page-gap{padding:0 5px}
 @media(max-width:1100px){.sf-catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.sf-catalog{padding:116px 15px 35px}.sf-catalog-search{margin:0 0 20px}.sf-catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sf-filter-toggle{padding:9px}.sf-filters.is-open{max-height:82dvh!important}.sf-result-toolbar{flex-wrap:wrap}.sf-footer-social a{width:44px;height:44px}.sf-whatsapp{right:16px;bottom:84px}}
+
+/* Ajustes finos após revisão visual no iPhone */
+.storefront .sf-wine-card{display:flex;flex-direction:column;height:auto!important;min-height:0!important;align-self:start;border-radius:16px;overflow:hidden}
+.storefront .sf-wine-info{display:flex;flex-direction:column;gap:3px;flex:0 0 auto;padding:13px}
+.storefront .sf-wine-info h3{height:auto!important;min-height:0!important;margin:3px 0 5px;line-height:1.35}
+.storefront .sf-wine-info>p{margin:0 0 2px}
+.storefront .sf-wine-grape{margin-bottom:0}
+.storefront .sf-wine-price{height:auto!important;min-height:0!important;margin:10px 0 8px}
+.storefront .sf-add{min-height:38px;margin:0;border-radius:11px}
+.storefront .sf-product-row{align-items:start;grid-auto-rows:max-content}
+.storefront .sf-wine-visual{height:215px}
+.storefront .sf-brand img{width:auto!important;max-width:185px;height:49px;max-height:100%;object-fit:contain;object-position:left center;filter:none}
+.storefront .sf-header-inner{overflow:hidden}
+.storefront .sf-whatsapp{height:52px;width:52px;background:#25d366!important;box-shadow:0 5px 20px #071a1026}
+.storefront .sf-whatsapp svg{height:28px;width:28px;fill:#fff}
+.storefront .sf-footer-social svg{fill:currentColor}
+@media(max-width:760px){
+.storefront .sf-wine-card{width:100%;max-width:100%;min-height:0!important}
+.storefront .sf-product-row{grid-auto-columns:minmax(0,calc((100% - 12px)/2));align-items:start}
+.storefront .sf-wine-visual{height:170px}
+.storefront .sf-wine-info{padding:12px;gap:2px}
+.storefront .sf-wine-info h3{font-size:12px;min-height:0!important}
+.storefront .sf-wine-info>p,.storefront .sf-wine-grape{font-size:10px}
+.storefront .sf-wine-price{margin:8px 0}
+.storefront .sf-wine-price strong{font-size:18px}
+.storefront .sf-add{min-height:38px;font-size:9px!important;padding:8px 5px}
+.storefront .sf-brand img{width:auto!important;height:39px;max-width:145px}
+.storefront .sf-header-inner{padding:6px 12px}
+.storefront .sf-whatsapp{right:18px;bottom:88px;height:49px;width:49px}
+.storefront .sf-whatsapp svg{width:27px;height:27px}
+}
