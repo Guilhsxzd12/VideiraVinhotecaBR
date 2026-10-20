@@ -28,6 +28,7 @@ export default function AdminPage(){
   const [saving,setSaving]=useState(false);
   const [options,setOptions]=useState({categories:[],wineries:[],grapes:[],countries:[],regions:[]});
   const [error,setError]=useState('');
+  const [busyRow,setBusyRow]=useState(''),[notice,setNotice]=useState('');
   const refreshOptions=async()=>setOptions(await loadAdminOptions());
   useEffect(()=>{if(token)refreshOptions().catch(e=>setError(e.message))},[token]);
   const createTerm=async(entity,data)=>{const result=await call({action:'save',entity,data});await refreshOptions();return result.item};
@@ -61,9 +62,10 @@ export default function AdminPage(){
     catch(e){setError(e.message)}
     finally{setSaving(false)}
   };
+  const togglePublication=async item=>{if(busyRow)return;setBusyRow(item.id);setError('');setNotice('');try{const active=item.active===false;await call({action:'set_active',entity:'products',id:item.id,active});setItems(rows=>rows.map(row=>row.id===item.id?{...row,active}:row));setNotice(active?'Produto publicado novamente no site.':'Produto desativado do site. O cadastro foi preservado.')}catch(e){setError(e.message)}finally{setBusyRow('')}};
   const del=async item=>{
     if(!confirm(`Excluir "${item.name}"? Essa ação não pode ser desfeita.`))return;
-    try{await call({action:'delete',entity:tab,id:item.id});await load()}catch(e){alert(e.message)}
+    if(busyRow)return;setBusyRow(item.id);setError('');setNotice('');try{await call({action:'delete',entity:tab,id:item.id});setNotice('Registro removido.');if(items.length===1&&page>1)setPage(p=>p-1);else await load()}catch(e){setError(e.message)}finally{setBusyRow('')}
   };
   const logout=async()=>{try{await call({action:'logout'})}catch{}sessionStorage.removeItem('videira-admin-token');setToken('')};
   const title=TABS.find(x=>x[0]===tab)?.[1]||'Painel';
@@ -82,7 +84,7 @@ export default function AdminPage(){
   return <main className="adm-page">
     <aside className="adm-sidebar">
       <div className="adm-brand">Videira <span>ADM</span></div>
-      <nav>{TABS.map(([id,label])=><button key={id} className={tab===id?'active':''} onClick={()=>{setTab(id);setQ('');setEditing(null)}}>{label}</button>)}</nav>
+      <nav>{TABS.map(([id,label])=><button key={id} className={tab===id?'active':''} onClick={()=>{setTab(id);setQ('');setEditing(null);setNotice('');setError('')}}>{label}</button>)}</nav>
       <a href="/" target="_blank">Abrir site ↗</a>
       <button className="adm-logout" onClick={logout}>Sair</button>
     </aside>
@@ -98,7 +100,7 @@ export default function AdminPage(){
         <span>{count} registro{count===1?'':'s'}</span>
       </div>
 
-      {error&&<div className="adm-error" role="alert">{error}</div>}
+      {notice&&<div className="adm-notice" role="status">{notice}</div>}{error&&<div className="adm-error" role="alert">{error}</div>}
       <div className="adm-table-wrap">
         {loading?<div className="adm-loading">Carregando...</div>:
         <table className="adm-table">
@@ -114,7 +116,7 @@ export default function AdminPage(){
               {['wineries','regions'].includes(tab)&&<td>{item.country||'Não informado'}</td>}{tab==='wineries'&&<td>{item.logo_url?<img className="adm-mini-logo" src={item.logo_url} alt=""/>:'—'}</td>}
               <td><span className={item.active!==false?'adm-stock ok':'adm-stock out'}>{item.active!==false?'Ativo':'Inativo'}</span></td>
             </>}
-            <td className="adm-row-actions"><button onClick={()=>setEditing({...item})}>Editar</button><button className="danger" onClick={()=>del(item)}>Excluir</button></td>
+            <td className="adm-row-actions"><button disabled={!!busyRow} onClick={()=>setEditing({...item})}>Editar</button>{tab==='products'&&<button className="adm-publication" disabled={!!busyRow} onClick={()=>togglePublication(item)}>{busyRow===item.id?'Aguarde…':item.active===false?'Publicar novamente':'Desativar do site'}</button>}<button className="danger" disabled={!!busyRow} onClick={()=>del(item)}>{tab==='products'?'Remover':'Excluir'}</button></td>
           </tr>)}</tbody>
         </table>}
       </div>
