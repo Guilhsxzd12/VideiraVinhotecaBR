@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 
-const API='https://rmyybeaepscmzbddnvzr.supabase.co/functions/v1/admin-catalog';
+import {adminCall,signInAdmin} from './adminApi';
 const TABS=[
   ['products','Produtos'],
   ['categories','Categorias'],
@@ -9,13 +9,7 @@ const TABS=[
   ['grapes','Uvas'],
 ];
 
-async function call(body){
-  const token=sessionStorage.getItem('videira-admin-token')||'';
-  const r=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...body,token})});
-  const data=await r.json().catch(()=>({}));
-  if(!r.ok)throw new Error(data.error||'Erro ao comunicar com o painel.');
-  return data;
-}
+const call=adminCall;
 
 function fileToDataUrl(file){
   return new Promise((resolve,reject)=>{
@@ -36,22 +30,18 @@ function ProductForm({value,onChange}){
     <label>Nome<input value={value.name||''} onChange={e=>set('name',e.target.value)}/></label>
     <label>Bodega<input value={value.winery||''} onChange={e=>set('winery',e.target.value)}/></label>
     <label>País<input value={value.country||''} onChange={e=>set('country',e.target.value)}/></label>
-    <label>Código do país<input placeholder="br, ar, cl..." value={value.country_code||''} onChange={e=>set('country_code',e.target.value.toLowerCase())}/></label>
-    <label>Região<input value={value.region||''} onChange={e=>set('region',e.target.value)}/></label>
     <label>Uva<input value={value.grape||''} onChange={e=>set('grape',e.target.value)}/></label>
     <label>Categoria / tipo<input value={value.type||''} onChange={e=>set('type',e.target.value)}/></label>
-    <label>Teor alcoólico<input value={value.alcohol||''} onChange={e=>set('alcohol',e.target.value)}/></label>
-    <label>Amadurecimento<input value={value.aging||''} onChange={e=>set('aging',e.target.value)}/></label>
     <label>Preço<input type="number" min="0" step="0.01" value={value.price??0} onChange={e=>set('price',Number(e.target.value||0))}/></label>
-    <label className="adm-span-2">Notas<textarea rows="5" value={value.tasting_notes||''} onChange={e=>set('tasting_notes',e.target.value)}/></label>
+    <label>Preço no Pix<input type="number" min="0" step="0.01" value={value.pix_price??''} onChange={e=>set('pix_price',e.target.value===''?null:Number(e.target.value))}/></label>
+    <label>Preço no cartão<input type="number" min="0" step="0.01" value={value.card_price??''} onChange={e=>set('card_price',e.target.value===''?null:Number(e.target.value))}/></label>
+    <label className="adm-span-2">Descrição<textarea rows="5" value={value.tasting_notes||''} onChange={e=>set('tasting_notes',e.target.value)}/></label>
     <label className="adm-span-2">Imagem
       <input type="file" accept="image/*" onChange={async e=>{const f=e.target.files?.[0];if(f)set('image_url',await fileToDataUrl(f))}}/>
       {value.image_url&&<img className="adm-image-preview" src={value.image_url} alt="Prévia do rótulo"/>}
     </label>
     <div className="adm-checks adm-span-2">
-      <Toggle label="Em estoque" checked={value.in_stock!==false} onChange={v=>set('in_stock',v)}/>
       <Toggle label="Ativo no site" checked={value.active!==false} onChange={v=>set('active',v)}/>
-      <Toggle label="Novidade" checked={value.new_arrival} onChange={v=>set('new_arrival',v)}/>
       <Toggle label="Destaque" checked={value.featured} onChange={v=>set('featured',v)}/>
     </div>
   </div>
@@ -101,10 +91,7 @@ export default function AdminPage(){
   const doLogin=async e=>{
     e.preventDefault();setLoginError('');
     try{
-      const r=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'login',...login})});
-      const d=await r.json();
-      if(!r.ok)throw new Error('Login ou senha incorretos.');
-      sessionStorage.setItem('videira-admin-token',d.token);setToken(d.token);
+      const d=await signInAdmin(login.username,login.password);sessionStorage.setItem('videira-admin-token',d.token);setToken(d.token);setLogin({username:'',password:''});
     }catch(e){setLoginError(e.message)}
   };
 
@@ -154,12 +141,12 @@ export default function AdminPage(){
       <div className="adm-table-wrap">
         {loading?<div className="adm-loading">Carregando...</div>:
         <table className="adm-table">
-          <thead><tr>{tab==='products'?<><th>Produto</th><th>Bodega</th><th>País</th><th>Uva</th><th>Estoque</th><th>Preço</th></>:<><th>Nome</th>{tab==='wineries'&&<th>Logo</th>}<th>Status</th></>}<th/></tr></thead>
+          <thead><tr>{tab==='products'?<><th>Produto</th><th>Bodega</th><th>País</th><th>Uva</th><th>Status</th><th>Preço</th></>:<><th>Nome</th>{tab==='wineries'&&<th>Logo</th>}<th>Status</th></>}<th/></tr></thead>
           <tbody>{items.map(item=><tr key={item.id}>
             {tab==='products'?<>
               <td><strong>{item.name}</strong><small>{item.id}</small></td>
               <td>{item.winery||'—'}</td><td>{item.country||'—'}</td><td>{item.grape||'—'}</td>
-              <td><span className={item.in_stock!==false?'adm-stock ok':'adm-stock out'}>{item.in_stock!==false?'Em estoque':'Sem estoque'}</span></td>
+              <td><span className={item.active!==false?'adm-stock ok':'adm-stock out'}>{item.active!==false?'Ativo no site':'Inativo'}</span></td>
               <td>R$ {Number(item.price||0).toFixed(2).replace('.',',')}</td>
             </>:<>
               <td><strong>{item.name}</strong></td>
