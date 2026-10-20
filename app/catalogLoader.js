@@ -77,7 +77,7 @@ export function normalize(w){
     isNew:Boolean(w.new_arrival),
   };
   item.tone=toneFor(item);
-  item.filterGrape=[item.type,...(item.categories||[])].some(c=>/^blends?$/i.test(String(c).trim()))?'Blends':grapeCategory(item.grape);
+  item.filterGrape=item.grape_is_blend||[item.type,...(item.categories||[])].some(c=>/^blends?$/i.test(String(c).trim()))?'Blends':grapeCategory(item.grape);
   item.grapeDisplay=grapeDisplay(item.grape);
   knownWines.set(String(item.id),item);
   return item;
