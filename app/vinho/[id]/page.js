@@ -1,5 +1,3 @@
-'use client';
-import {useParams} from 'next/navigation';
 import WineDetail from '../../WineDetail';
-import {wineIdFromSlug} from '../../catalogLoader';
-export default function WinePage(){const params=useParams();return <WineDetail id={wineIdFromSlug(params?.id||'')}/>}
+import {getInitialProducts} from '../../serverCatalog';
+export default async function WinePage({params}){const {id}=await params;const marker=id.lastIndexOf('--');return <WineDetail id={marker>=0?id.slice(marker+2):id} initialProducts={await getInitialProducts()}/>}

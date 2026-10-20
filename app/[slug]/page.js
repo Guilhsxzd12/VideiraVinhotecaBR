@@ -1,4 +1,3 @@
-'use client';
-import {useParams} from 'next/navigation';
 import WineDetail from '../WineDetail';
-export default function SlugPage(){const {slug}=useParams();return <WineDetail slug={String(slug||'')}/>}
+import {getInitialProducts} from '../serverCatalog';
+export default async function SlugPage({params}){const {slug}=await params;const initialProducts=await getInitialProducts();return <WineDetail slug={String(slug||'')} initialProducts={initialProducts}/>}

@@ -6,6 +6,8 @@ const FALLBACK_URL='https://lahajlrombmoftevweaf.supabase.co';
 const FALLBACK_KEY='sb_publishable_ixLS7JIsBDtPF75R-rZwcA_2eAD0bKV';
 
 let catalogPromise;
+const knownWines=new Map();
+export function getCachedWine(id,slug){return id?knownWines.get(String(id))||null:[...knownWines.values()].find(w=>wineSlug(w)===slug||slugify(w.name)===slug)||null;}
 
 function toneFor(w){
   const s=[w.grape,w.name,w.type].filter(Boolean).join(' ').toLowerCase();
@@ -77,6 +79,7 @@ export function normalize(w){
   item.tone=toneFor(item);
   item.filterGrape=grapeCategory(item.grape);
   item.grapeDisplay=grapeDisplay(item.grape);
+  knownWines.set(String(item.id),item);
   return item;
 }
 
