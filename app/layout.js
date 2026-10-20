@@ -5,6 +5,7 @@ import './editorial.css';
 import './product-detail.css';
 import './header-navigation.css';
 import './editorial-home.css';
+import './wine-carousel.css';
 import AgeGate from './AgeGate';
 
 export const metadata = {
