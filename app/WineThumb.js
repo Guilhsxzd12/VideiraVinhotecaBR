@@ -102,12 +102,12 @@ export default function WineThumb({wine,className='wine-photo'}){
      processedCache.set(src,out);
      if(alive)setDisplay(out);
    };
-   img.onerror=()=>alive&&setDisplay(src);
+   img.onerror=()=>alive&&setDisplay('');
    img.src=src;
    return()=>{alive=false};
  },[src]);
 
- if(!display)return <span ref={ref} className="wine-photo-placeholder" aria-hidden="true"/>;
+ if(!display)return <span ref={ref} className="wine-photo-placeholder" role="img" aria-label="Foto do produto indisponível"><svg viewBox="0 0 80 180" aria-hidden="true"><path d="M30 8h20v48c0 16 17 20 17 40v72H13V96c0-20 17-24 17-40Z"/><path d="M14 103h52v40H14"/></svg><small>Imagem em atualização</small></span>;
  const webSource=/^https?:\/\//i.test(src);
- return <img ref={ref} className={`${className} ${webSource?'web-photo':''}`} src={display} alt={wine?.name||'Rótulo de vinho'} loading="lazy" decoding="async" draggable="false"/>;
+ return <img ref={ref} className={`${className} ${webSource?'web-photo':''}`} src={display} alt={wine?.name||'Rótulo de vinho'} onError={()=>setDisplay('')} loading="lazy" decoding="async" draggable="false"/>;
 }
