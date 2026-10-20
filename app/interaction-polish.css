@@ -1,0 +1,26 @@
+/* Consistent curves and subtle feedback, using the Videira brand palette. */
+.storefront{--product-paper:#fcf9f3;--card-radius:14px;--action-radius:9px}
+.storefront main .sf-wine-card,.storefront .wc-group>.sf-wine-card{border-radius:var(--card-radius)!important;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.storefront main .sf-wine-visual{border-radius:0!important;overflow:hidden}
+.storefront .sf-wine-visual .wine-photo{transition:transform .35s ease}
+.storefront .sf-wine-card .sf-add,.storefront .pd-purchase .sf-button,.storefront .pd-whatsapp,.storefront .sf-button,.storefront .ve-primary{border-radius:var(--action-radius)!important}
+.storefront :is(button,a){-webkit-tap-highlight-color:transparent}
+.storefront button,.storefront .sf-add,.storefront .sf-button,.storefront .ve-primary,.storefront .pd-whatsapp,.storefront .sf-footer-social a,.storefront .ve-text-link{transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.storefront main .sf-wine-card .sf-add{background:#651242;color:white;border-color:#651242}
+.storefront main .sf-wine-card .sf-add:not(:disabled):hover,.storefront main .sf-wine-card .sf-add:not(:disabled):focus-visible,.storefront .pd-purchase .sf-button:not(:disabled):hover,.storefront .pd-purchase .sf-button:not(:disabled):focus-visible{background:#f8af3c!important;color:#171117!important;border-color:#f8af3c!important;box-shadow:0 4px 12px #65124212}
+.storefront main .sf-wine-card .sf-add:disabled,.storefront .pd-purchase .sf-button:disabled{cursor:not-allowed;opacity:.55}
+.storefront .pd-whatsapp:hover,.storefront .pd-whatsapp:focus-visible,.storefront .sf-service>a:hover{background:#651242;color:white;border-color:#651242}
+.storefront .sf-footer-social a:hover,.storefront .sf-footer-social a:focus-visible{background:#f8af3c;color:#651242;border-color:#f8af3c;transform:translateY(-2px)}
+.storefront .wc-controls>button:hover,.storefront .sf-shelf-actions>button:hover{background:#f8af3c;color:#171117;border-color:#f8af3c}
+.storefront button:not(:disabled):active,.storefront a.sf-add:active,.storefront a.ve-primary:active,.storefront a.pd-whatsapp:active{transform:scale(.98)}
+.storefront .ve-primary:hover{background:#651242;color:white}.storefront .ve-hero .ve-primary:hover{background:#fdf6e1;color:#651242}
+.storefront .ve-text-link:hover{color:#a76608;border-color:#f8af3c}
+.storefront .ve-text-link svg,.storefront .ve-primary svg,.storefront .pd-whatsapp svg:last-child{transition:transform .2s ease}
+.storefront .ve-text-link:hover svg,.storefront .ve-primary:hover svg,.storefront .pd-whatsapp:hover svg:last-child{transform:translateX(3px)}
+.storefront:has(.pd-main),body:has(.pd-main),html:has(.pd-main){background:var(--product-paper,#fcf9f3)!important}.storefront .pd-main{background:var(--product-paper)!important}.storefront:has(.pd-main) .sf-service{background:#f5f0e7}.storefront .pd-photo-button{border-radius:14px;overflow:hidden}.storefront .pd-content{border-color:#e7dfd3}.storefront .pd-section-nav a{transition:color .2s ease,background-color .2s ease;padding:9px 13px;border-radius:8px}.storefront .pd-section-nav a:hover,.storefront .pd-section-nav a:focus-visible{background:#f4ebda;color:#651242}.storefront .pd-section-nav{padding:10px 0;gap:10px}
+.storefront .vn-header .sf-brand img{width:180px;height:61px;object-fit:contain;filter:none!important}.storefront .sf-footer-brand>img{width:190px;height:68px;object-fit:contain;filter:none!important}
+.storefront .pd-summary,.storefront .ve-hero-content{animation:videira-enter .45s ease both}@keyframes videira-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(hover:hover) and (pointer:fine){.storefront main .sf-wine-card:hover{transform:translateY(-3px);box-shadow:0 9px 24px #65124212!important}.storefront .sf-wine-card:hover .sf-wine-visual .wine-photo{transform:scale(1.035)}.storefront .wc-viewport{padding-top:5px;padding-bottom:8px}}
+@media(max-width:1100px) and (min-width:951px){.storefront .vn-header .sf-brand img{width:145px;height:53px}}
+@media(max-width:950px){.storefront .vn-header .sf-brand img{width:155px;height:52px}}@media(max-width:760px){.storefront .vn-header .sf-brand img{width:140px;height:47px}.storefront .pd-purchase .sf-button{border-radius:8px!important}}
+@media(prefers-reduced-motion:reduce){.storefront button,.storefront a,.storefront .sf-wine-card,.storefront .sf-wine-visual .wine-photo,.storefront svg{transition:none!important}.storefront .pd-summary,.storefront .ve-hero-content{animation:none!important}.storefront main .sf-wine-card:hover,.storefront .sf-wine-card:hover .sf-wine-visual .wine-photo{transform:none!important}}
