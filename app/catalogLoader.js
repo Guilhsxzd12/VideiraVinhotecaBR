@@ -52,9 +52,9 @@ export function slugify(value=''){
 }
 
 export function wineSlug(w){
-  return slugify(w?.name||'vinho');
+  return slugify(w?.name||'vinho')+'--'+encodeURIComponent(String(w?.id||''));
 }
-export function winePath(w){return `/${wineSlug(w)}`;}
+export function winePath(w){return `/vinho/${wineSlug(w)}`;}
 export function wineIdFromSlug(slug=''){
   const clean=decodeURIComponent(String(slug).split('?')[0]).replace(/\/+$/,'');
   const marker=clean.lastIndexOf('--');

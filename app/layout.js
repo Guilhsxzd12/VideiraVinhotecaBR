@@ -2,6 +2,7 @@ import { FAVICON } from './brand';
 import './globals.css';
 import './storefront.css';
 import './editorial.css';
+import './product-detail.css';
 import AgeGate from './AgeGate';
 
 export const metadata = {
