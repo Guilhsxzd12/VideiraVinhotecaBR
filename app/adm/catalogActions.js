@@ -10,7 +10,7 @@ export async function adminCall(body){
  if(body.action==='save'){
   const data=body.data||{};if(!String(data.name||'').trim())throw new Error('Informe o nome.');let payload;
   if(body.entity==='products'){
-   payload={};for(const key of ['name','country','region','grape','winery','categories','image_url','price','active','featured','in_stock','pix_price','card_price','sale_price','promotion_start','promotion_end','promotion_scope','description','vintage','volume_ml','alcohol','aging','visual','aromas','palate','tasting_notes','pairing','serving_temperature'])if(data[key]!==undefined)payload[key]=data[key];payload.category=data.type||'';
+   payload={};for(const key of ['name','country','state','region','grape','winery','categories','image_url','price','active','featured','in_stock','pix_price','card_price','sale_price','promotion_start','promotion_end','promotion_scope','description','vintage','volume_ml','alcohol','aging','visual','aromas','palate','tasting_notes','pairing','serving_temperature'])if(data[key]!==undefined)payload[key]=data[key];payload.category=data.type||'';
    const options=await loadAdminOptions(true);
    if(payload.region&&!options.regions.some(r=>r.name===payload.region&&r.country===payload.country))throw new Error('Selecione uma região do país escolhido.');
    const chosen={categories:[payload.category,...(payload.categories||[])],countries:[payload.country],regions:[payload.region],grapes:[payload.grape],wineries:[payload.winery]};

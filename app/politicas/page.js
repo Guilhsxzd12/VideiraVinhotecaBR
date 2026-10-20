@@ -1,6 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { HEADER_LOGO } from '../brand';
+import PolicyLayout from './PolicyLayout';
 
 const policies={
  privacidade:{title:'Política de Privacidade',intro:'Esta página explica como a Videira Vinhoteca trata informações fornecidas pelos clientes durante o uso do site e o atendimento comercial.',sections:[
@@ -27,8 +27,5 @@ export default function PoliciesPage(){
  const pathname=usePathname();
  const slug=(pathname||'').split('/').filter(Boolean).pop()||'termos';
  const policy=policies[slug]||policies.termos;
- return <>
-  <header className="floating-header"><div className="header-pill"><a className="header-logo" href="/"><img src={HEADER_LOGO} alt="Videira Vinhoteca"/></a><nav><a href="/">Início</a><a href="/loja">Loja</a><a href="/#uvas">Uvas</a><a href="/#bodegas">Bodegas</a><a href="/#sobre">Sobre nós</a><a href="/#faq">FAQ</a></nav><div className="header-actions"><a className="shop-pill" href="/loja">Loja →</a></div></div></header>
-  <main className="policy-page"><a className="detail-back" href="/">← Voltar ao site</a><p className="kicker dark">VIDEIRA VINHOTECA</p><h1>{policy.title}</h1><p className="policy-intro">{policy.intro}</p><div className="policy-content">{policy.sections.map(([title,text])=><section key={title}><h2>{title}</h2><p>{text}</p></section>)}</div><p className="policy-note">Última atualização: outubro de 2026.</p></main>
- </>;
+ return <PolicyLayout title={policy.title} intro={policy.intro} sections={policy.sections}/>;
 }
