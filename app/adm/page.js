@@ -1,63 +1,18 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 
-import {adminCall,signInAdmin} from './adminApi';
+import {adminCall,signInAdmin,loadAdminOptions} from './adminApi';
+import {ProductForm,SimpleForm} from './CatalogForms';
 const TABS=[
   ['products','Produtos'],
   ['categories','Categorias'],
   ['wineries','Bodegas'],
   ['grapes','Uvas'],
+  ['countries','Países'],
+  ['regions','Regiões'],
 ];
 
 const call=adminCall;
-
-function fileToDataUrl(file){
-  return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onload=()=>resolve(String(reader.result||''));
-    reader.onerror=reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-function Toggle({label,checked,onChange}){
-  return <label className="adm-toggle"><input type="checkbox" checked={!!checked} onChange={e=>onChange(e.target.checked)}/><span/>{label}</label>
-}
-
-function ProductForm({value,onChange}){
-  const set=(k,v)=>onChange({...value,[k]:v});
-  return <div className="adm-form-grid">
-    <label>Nome<input value={value.name||''} onChange={e=>set('name',e.target.value)}/></label>
-    <label>Bodega<input value={value.winery||''} onChange={e=>set('winery',e.target.value)}/></label>
-    <label>País<input value={value.country||''} onChange={e=>set('country',e.target.value)}/></label>
-    <label>Uva<input value={value.grape||''} onChange={e=>set('grape',e.target.value)}/></label>
-    <label>Categoria / tipo<input value={value.type||''} onChange={e=>set('type',e.target.value)}/></label>
-    <label>Preço<input type="number" min="0" step="0.01" value={value.price??0} onChange={e=>set('price',Number(e.target.value||0))}/></label>
-    <label>Preço no Pix<input type="number" min="0" step="0.01" value={value.pix_price??''} onChange={e=>set('pix_price',e.target.value===''?null:Number(e.target.value))}/></label>
-    <label>Preço no cartão<input type="number" min="0" step="0.01" value={value.card_price??''} onChange={e=>set('card_price',e.target.value===''?null:Number(e.target.value))}/></label>
-    <label className="adm-span-2">Descrição<textarea rows="5" value={value.tasting_notes||''} onChange={e=>set('tasting_notes',e.target.value)}/></label>
-    <label className="adm-span-2">Imagem
-      <input type="file" accept="image/*" onChange={async e=>{const f=e.target.files?.[0];if(f)set('image_url',await fileToDataUrl(f))}}/>
-      {value.image_url&&<img className="adm-image-preview" src={value.image_url} alt="Prévia do rótulo"/>}
-    </label>
-    <div className="adm-checks adm-span-2">
-      <Toggle label="Ativo no site" checked={value.active!==false} onChange={v=>set('active',v)}/>
-      <Toggle label="Destaque" checked={value.featured} onChange={v=>set('featured',v)}/>
-    </div>
-  </div>
-}
-
-function SimpleForm({entity,value,onChange}){
-  const set=(k,v)=>onChange({...value,[k]:v});
-  return <div className="adm-form-grid">
-    <label className="adm-span-2">Nome<input value={value.name||''} onChange={e=>set('name',e.target.value)}/></label>
-    {entity==='wineries'&&<label className="adm-span-2">Logo da bodega
-      <input type="file" accept="image/*" onChange={async e=>{const f=e.target.files?.[0];if(f)set('logo_url',await fileToDataUrl(f))}}/>
-      {value.logo_url&&<img className="adm-logo-preview" src={value.logo_url} alt="Logo da bodega"/>}
-    </label>}
-    <div className="adm-checks adm-span-2"><Toggle label="Ativo" checked={value.active!==false} onChange={v=>set('active',v)}/></div>
-  </div>
-}
 
 export default function AdminPage(){
   const [token,setToken]=useState('');
@@ -71,6 +26,11 @@ export default function AdminPage(){
   const [loading,setLoading]=useState(false);
   const [editing,setEditing]=useState(null);
   const [saving,setSaving]=useState(false);
+  const [options,setOptions]=useState({categories:[],wineries:[],grapes:[],countries:[],regions:[]});
+  const [error,setError]=useState('');
+  const refreshOptions=async()=>setOptions(await loadAdminOptions());
+  useEffect(()=>{if(token)refreshOptions().catch(e=>setError(e.message))},[token]);
+  const createTerm=async(entity,data)=>{const result=await call({action:'save',entity,data});await refreshOptions();return result.item};
   const pageSize=40;
 
   useEffect(()=>{const t=sessionStorage.getItem('videira-admin-token')||'';if(t)setToken(t)},[]);
@@ -97,8 +57,8 @@ export default function AdminPage(){
 
   const save=async()=>{
     setSaving(true);
-    try{await call({action:'save',entity:tab,data:editing});setEditing(null);await load()}
-    catch(e){alert(e.message)}
+    try{setError('');await call({action:'save',entity:tab,data:editing});setEditing(null);await Promise.all([load(),refreshOptions()])}
+    catch(e){setError(e.message)}
     finally{setSaving(false)}
   };
   const del=async item=>{
@@ -130,7 +90,7 @@ export default function AdminPage(){
     <section className="adm-content">
       <header className="adm-top">
         <div><p>CATÁLOGO</p><h1>{title}</h1></div>
-        <button className="adm-new" onClick={()=>setEditing(tab==='products'?{name:'',price:0,active:true,in_stock:true,new_arrival:false,featured:false}:{name:'',active:true})}>+ Novo</button>
+        <button className="adm-new" onClick={()=>setEditing(tab==='products'?{name:'',price:0,active:true,in_stock:true,featured:false,promotion_scope:'all',categories:[]}:{name:'',active:true})}>+ Novo</button>
       </header>
 
       <div className="adm-toolbar">
@@ -138,10 +98,11 @@ export default function AdminPage(){
         <span>{count} registro{count===1?'':'s'}</span>
       </div>
 
+      {error&&<div className="adm-error" role="alert">{error}</div>}
       <div className="adm-table-wrap">
         {loading?<div className="adm-loading">Carregando...</div>:
         <table className="adm-table">
-          <thead><tr>{tab==='products'?<><th>Produto</th><th>Bodega</th><th>País</th><th>Uva</th><th>Status</th><th>Preço</th></>:<><th>Nome</th>{tab==='wineries'&&<th>Logo</th>}<th>Status</th></>}<th/></tr></thead>
+          <thead><tr>{tab==='products'?<><th>Produto</th><th>Bodega</th><th>País</th><th>Uva</th><th>Status</th><th>Preço</th></>:<><th>Nome</th>{['wineries','regions'].includes(tab)&&<th>País</th>}{tab==='wineries'&&<th>Logo</th>}<th>Status</th></>}<th/></tr></thead>
           <tbody>{items.map(item=><tr key={item.id}>
             {tab==='products'?<>
               <td><strong>{item.name}</strong><small>{item.id}</small></td>
@@ -150,7 +111,7 @@ export default function AdminPage(){
               <td>R$ {Number(item.price||0).toFixed(2).replace('.',',')}</td>
             </>:<>
               <td><strong>{item.name}</strong></td>
-              {tab==='wineries'&&<td>{item.logo_url?<img className="adm-mini-logo" src={item.logo_url} alt=""/>:'—'}</td>}
+              {['wineries','regions'].includes(tab)&&<td>{item.country||'Não informado'}</td>}{tab==='wineries'&&<td>{item.logo_url?<img className="adm-mini-logo" src={item.logo_url} alt=""/>:'—'}</td>}
               <td><span className={item.active!==false?'adm-stock ok':'adm-stock out'}>{item.active!==false?'Ativo':'Inativo'}</span></td>
             </>}
             <td className="adm-row-actions"><button onClick={()=>setEditing({...item})}>Editar</button><button className="danger" onClick={()=>del(item)}>Excluir</button></td>
@@ -164,8 +125,8 @@ export default function AdminPage(){
     {editing&&<div className="adm-modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setEditing(null)}}>
       <section className="adm-editor">
         <header><div><p>{editing.id?'EDITAR':'NOVO'}</p><h2>{tab==='products'?(editing.name||'Produto'):(editing.name||title)}</h2></div><button onClick={()=>setEditing(null)}>×</button></header>
-        <div className="adm-editor-body">{tab==='products'?<ProductForm value={editing} onChange={setEditing}/>:<SimpleForm entity={tab} value={editing} onChange={setEditing}/>}</div>
-        <footer><button className="secondary" onClick={()=>setEditing(null)}>Cancelar</button><button className="primary" disabled={saving} onClick={save}>{saving?'Salvando...':'Salvar alterações'}</button></footer>
+        <div className="adm-editor-body">{tab==='products'?<ProductForm value={editing} onChange={setEditing} options={options} onCreate={createTerm}/>:<SimpleForm entity={tab} value={editing} onChange={setEditing} options={options} onCreate={createTerm}/>}</div>
+        {error&&<p className="adm-error" role="alert">{error}</p>}<footer><button className="secondary" onClick={()=>setEditing(null)}>Cancelar</button><button className="primary" disabled={saving} onClick={save}>{saving?'Salvando...':'Salvar alterações'}</button></footer>
       </section>
     </div>}
   </main>;

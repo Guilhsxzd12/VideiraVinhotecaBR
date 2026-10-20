@@ -1,0 +1,4 @@
+export function regularPixPrice(w){const n=Number(w?.pix_price??w?.price_pix??w?.price??0);return Number.isFinite(n)?n:0}
+export function promotionActive(w,now=Date.now()){const sale=Number(w?.sale_price);if(!Number.isFinite(sale)||sale<=0)return false;const start=w?.promotion_start?Date.parse(w.promotion_start):-Infinity,end=w?.promotion_end?Date.parse(w.promotion_end):Infinity;return !Number.isNaN(start)&&!Number.isNaN(end)&&now>=start&&now<=end}
+export function pixPrice(w){const regular=regularPixPrice(w),scope=w?.promotion_scope||'pix';return promotionActive(w)&&scope!=='card'?Math.min(regular,Number(w.sale_price)):regular}
+export function cardPrice(w){const n=Number(w?.card_price??w?.price_card??w?.preco_cartao??0);if(!Number.isFinite(n)||n<=0)return null;return promotionActive(w)&&['all','card'].includes(w?.promotion_scope)?Math.min(n,Number(w.sale_price)):n}

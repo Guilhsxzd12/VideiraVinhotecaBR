@@ -1,7 +1,7 @@
 'use client';
 
-const SUPABASE_URL='https://rmyybeaepscmzbddnvzr.supabase.co';
-const SUPABASE_KEY='sb_publishable_lINNHBmZk9rvHYgtQetewg_NTRAEWq2';
+const SUPABASE_URL='https://lahajlrombmoftevweaf.supabase.co';
+const SUPABASE_KEY='sb_publishable_ixLS7JIsBDtPF75R-rZwcA_2eAD0bKV';
 const FALLBACK_URL='https://lahajlrombmoftevweaf.supabase.co';
 const FALLBACK_KEY='sb_publishable_ixLS7JIsBDtPF75R-rZwcA_2eAD0bKV';
 
@@ -52,9 +52,9 @@ export function slugify(value=''){
 }
 
 export function wineSlug(w){
-  return slugify(w?.name||'vinho')+'--'+encodeURIComponent(String(w?.id||''));
+  return w?.slug||slugify(w?.name||'vinho');
 }
-export function winePath(w){return `/vinho/${wineSlug(w)}`;}
+export function winePath(w){return `/${wineSlug(w)}`;}
 export function wineIdFromSlug(slug=''){
   const clean=decodeURIComponent(String(slug).split('?')[0]).replace(/\/+$/,'');
   const marker=clean.lastIndexOf('--');
@@ -66,7 +66,7 @@ export function normalize(w){
     ...w,
     type:w.type||w.category||'',
     flag:w.country_code||({Brasil:'br',Chile:'cl',Argentina:'ar',Portugal:'pt',Espanha:'es',França:'fr',Itália:'it',Uruguai:'uy',Alemanha:'de',África_do_Sul:'za'}[String(w.country||'').replaceAll(' ','_')]||''),
-    price_pix:w.pix_price??w.price_pix??w.sale_price??w.price,
+    price_pix:w.pix_price??w.price_pix??w.price,
     price_card:w.card_price??w.price_card,
     in_stock:w.in_stock!==false,
     notes:w.tasting_notes||'',
@@ -81,7 +81,7 @@ export function normalize(w){
 }
 
 async function fetchRows(query){
-  for(const [url,key] of [[SUPABASE_URL,SUPABASE_KEY],[FALLBACK_URL,FALLBACK_KEY]]){
+  for(const [url,key] of [[SUPABASE_URL,SUPABASE_KEY]]){
     try{const response=await fetch(url+'/rest/v1/products?'+query,{headers:{apikey:key},cache:'no-store'});if(response.ok){const result=await response.json();if(Array.isArray(result))return result;}}catch(e){console.warn('Falha ao acessar uma fonte do catálogo',e)}
   }
   throw new Error('Não foi possível carregar o catálogo.');
@@ -138,5 +138,5 @@ export function loadWineries(){
   return wineryPromise;
 }
 
-export function pixPrice(w){return Number(w?.pix_price ?? w?.price_pix ?? w?.sale_price ?? w?.price ?? 0)}
-export function cardPrice(w){const n=Number(w?.price_card ?? w?.card_price ?? w?.preco_cartao ?? 0);return Number.isFinite(n)&&n>0?n:null}
+export {pixPrice,cardPrice,regularPixPrice,promotionActive} from './pricing';
+export async function loadTerms(){const response=await fetch(SUPABASE_URL+'/rest/v1/catalog_terms?select=*&active=eq.true&order=name.asc',{headers:{apikey:SUPABASE_KEY},cache:'no-store'});if(!response.ok)throw new Error('Não foi possível carregar os filtros.');const rows=await response.json();return rows.map(row=>row.country_id?{...row,country:rows.find(c=>c.id===row.country_id)?.name||row.country}:row);}

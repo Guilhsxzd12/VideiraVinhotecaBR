@@ -8,6 +8,7 @@ import './editorial-home.css';
 import './wine-carousel.css';
 import './compact-layout.css';
 import './interaction-polish.css';
+import './catalog-management.css';
 import AgeGate from './AgeGate';
 
 export const metadata = {
