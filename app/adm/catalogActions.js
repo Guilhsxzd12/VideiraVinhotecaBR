@@ -24,8 +24,9 @@ export async function adminCall(body){
    if(payload.promotion_start&&payload.promotion_end&&payload.promotion_end<payload.promotion_start)throw new Error('O fim da promoção deve ser posterior ao início.');
   }else{
    payload={name:String(data.name).trim(),kind:config.kind,active:data.active!==false};
-   if(['wineries','regions'].includes(body.entity)){if(!data.country)throw new Error('Selecione o país.');const options=await loadAdminOptions();const country=options.countries.find(c=>c.name===data.country);if(!country)throw new Error('Cadastre ou selecione um país existente.');payload.country=country.name;payload.country_id=country.id;}
-   if(body.entity==='wineries')payload.logo_url=data.logo_url||null;
+   if(body.entity==='regions'&&!data.country)throw new Error('Selecione o país da região.');
+   if(['wineries','regions'].includes(body.entity)&&data.country){const options=await loadAdminOptions();const country=options.countries.find(c=>c.name===data.country);if(!country)throw new Error('Cadastre ou selecione um país existente.');payload.country=country.name;payload.country_id=country.id;}
+   if(body.entity==='wineries'){payload.logo_url=data.logo_url||null;if(!data.country){payload.country=null;payload.country_id=null;}}
   }
   if(data.id)query.set('id','eq.'+data.id);const response=await request('/rest/v1/'+config.table+(data.id?'?'+query:''),{method:data.id?'PATCH':'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(payload)});const rows=await response.json();return {item:rows[0]};
  }

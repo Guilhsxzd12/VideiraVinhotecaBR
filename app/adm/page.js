@@ -6,7 +6,7 @@ import {ProductForm,SimpleForm} from './CatalogForms';
 const TABS=[
   ['products','Produtos'],
   ['categories','Categorias'],
-  ['wineries','Bodegas'],
+  ['wineries','Bodegas / Marcas'],
   ['grapes','Uvas'],
   ['countries','Países'],
   ['regions','Regiões'],
@@ -104,7 +104,7 @@ export default function AdminPage(){
       <div className="adm-table-wrap">
         {loading?<div className="adm-loading">Carregando...</div>:
         <table className="adm-table">
-          <thead><tr>{tab==='products'?<><th>Produto</th><th>Bodega</th><th>País</th><th>Uva</th><th>Status</th><th>Preço</th></>:<><th>Nome</th>{['wineries','regions'].includes(tab)&&<th>País</th>}{tab==='wineries'&&<th>Logo</th>}<th>Status</th></>}<th/></tr></thead>
+          <thead><tr>{tab==='products'?<><th>Produto</th><th>Bodega</th><th>País</th><th>Uva</th><th>Status</th><th>Preço</th></>:<><th>Nome</th>{['wineries','regions'].includes(tab)&&<th>{tab==='wineries'?'País da sede (opcional)':'País'}</th>}{tab==='wineries'&&<th>Logo</th>}<th>Status</th></>}<th/></tr></thead>
           <tbody>{items.map(item=><tr key={item.id}>
             {tab==='products'?<>
               <td><strong>{item.name}</strong><small>{item.id}</small></td>
